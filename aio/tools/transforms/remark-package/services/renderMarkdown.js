@@ -2,7 +2,7 @@ const remark = require('remark');
 const html = require('remark-html');
 const code = require('./handlers/code');
 
-const {mark} = require('./translator');
+const {addClassForTranslations, decodeChineseHref} = require('./translator');
 
 /**
  * @dgService renderMarkdown
@@ -22,7 +22,7 @@ module.exports = function renderMarkdown() {
                     .use(html, { handlers });
 
   return function renderMarkdownImpl(content) {
-    return mark(renderer.processSync(content).toString());
+    return decodeChineseHref(addClassForTranslations(renderer.processSync(content).toString()));
   };
 
   /**

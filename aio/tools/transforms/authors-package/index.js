@@ -37,6 +37,15 @@ function createPackage(changedFile) {
     console.log('Building API docs for', packageName);
     return require('./api-package').createPackage(packageName);
   }
+
+  const blogMatch = /^aio\/content\/blog\/([^.]+)\.md/.exec(changedFile);
+  const blogExampleMatch = /^aio\/content\/blog\/examples\/(?:cb-)?([^\/]+)\//.exec(changedFile);
+  if (blogMatch || blogExampleMatch) {
+    const blogName = blogMatch && blogMatch[1] || blogExampleMatch[1];
+    console.log(`Building blog doc: ${blogName}.md`);
+    return require('./blog-package').createPackage(blogName);
+  }
+
 }
 
 module.exports = {
